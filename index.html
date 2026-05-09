@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <!-- ==================== MEJORAS UNIVERSALES (TODOS LOS DISPOSITIVOS) ==================== -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Extrapolador">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
-    <meta name="full-screen" content="yes">
-    <meta name="browsermode" content="application">
-    <!-- ==================== FIN MEJORAS UNIVERSALES ==================== -->
     <title>🦂 EXTRAPOLADOR PERFECTO 🦂</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -355,7 +351,6 @@
         .footer { text-align: center; margin-top: 20px; padding: 15px; font-size: 0.55rem; color: #99aacc; }
         .loading { text-align: center; padding: 20px; color: #ffd700; }
         
-        /* TOAST VERDE NEÓN */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -368,7 +363,7 @@
             padding: 12px 24px;
             border-radius: 60px;
             border: 2px solid #00ff88;
-            box-shadow: 0 0 20px #00ff88, 0 0 5px #00ff88;
+            box-shadow: 0 0 20px #00ff88;
             z-index: 10001;
             opacity: 0;
             animation: neonToast 0.8s ease-out forwards;
@@ -378,7 +373,7 @@
         @keyframes neonToast {
             0% { opacity: 0; transform: translateX(-50%) scale(0.8); bottom: 0px; }
             20% { opacity: 1; transform: translateX(-50%) scale(1.1); bottom: 30px; }
-            80% { opacity: 1; transform: translateX(-50%) scale(1); bottom: 30px; }
+            80% { opacity: 1; transform: translateX(-70%) scale(1); bottom: 30px; }
             100% { opacity: 0; transform: translateX(-50%) scale(0.9); bottom: 80px; }
         }
         
@@ -395,7 +390,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         textarea { font-family: monospace; resize: vertical; }
         
-        /* MEJORAS PARA SCROLL SUAVE EN MÓVILES */
         html {
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
@@ -468,7 +462,6 @@
             <div class="info-box">💚 EXTRAS 100%+ VERDE = MÁXIMA PROBABILIDAD | 🦉 BINs exclusivos</div>
         </div>
 
-        <!-- ==================== NUEVO: GENERADOR DE TARJETAS (AGREGADO) ==================== -->
         <div class="panel" style="background: linear-gradient(135deg, #0a2a1a, #051505); border: 1px solid #00ff88;">
             <div style="font-weight:bold; margin-bottom:8px; color:#00ff88;">💳 GENERADOR DE TARJETAS COMPLETAS (MES/AÑO/CVV)</div>
             <div class="input-group">
@@ -490,7 +483,6 @@
             </div>
             <div id="tarjetasGeneradas" style="margin-top:12px;"></div>
         </div>
-        <!-- ==================== FIN GENERADOR ==================== -->
 
         <div class="tabs">
             <button class="tab active" data-tab="extras-tab">🔥 EXTRAS</button>
@@ -644,7 +636,7 @@
                         <button class="btn btn-warning" onclick="metodoAvanzadoMejorado()">⚙️ GENERAR</button>
                     </div>
                     <div id="avanzadoResultado" class="result-number" style="margin-top:6px;"></div>
-                    <div class="info-box" style="margin-top:6px;">📌 Algoritmo mejorado con suma, resta y multiplicación de múltiples posiciones</div>
+                    <div class="info-box" style="margin-top:6px;">📌 Algoritmo mejorado con suma, resta y multiplicación</div>
                 </div>
 
                 <div class="result-card" style="margin-bottom:15px;">
@@ -684,8 +676,7 @@
 </div>
 
 <script>
-    // ==================== CLAVE SEGURA (NUNCA VISIBLE) ====================
-    // La clave NO está visible en el código. Se valida remotamente.
+    // ==================== SISTEMA DE SEGURIDAD ====================
     const URL_CLAVE_REMOTA = "https://gist.githubusercontent.com/extrasbines77/a1fbd60e6b012aea20258ad93be7a7cf/raw/5abf283da61ef2f1e4b558e4fec22965c8ffd928/clave.txt";
     const CLAVE_LOCAL = "1515";
     const SESION_DURACION_HORAS = 24;
@@ -731,8 +722,8 @@
         }
         return false;
     }
-    
-    async function checkAccessSeguro() {
+
+async function checkAccessSeguro() {
         if (verificarBloqueo()) return;
         
         let claveIngresada = document.getElementById('accessKey').value;
@@ -798,7 +789,6 @@
     if (!verificarSesionActiva()) {
         verificarBloqueo();
     }
-    // ==================== FIN SISTEMA DE SEGURIDAD ====================
     
     // ==================== TOAST VERDE NEÓN ====================
     function mostrarToastNeon(mensaje) {
@@ -810,9 +800,8 @@
             if (toast && toast.remove) toast.remove();
         }, 1500);
     }
-    // ==================== FIN TOAST ====================
     
-    // ==================== DETECTOR Y CORRECTOR DE ERRORES ====================
+    // ==================== VALIDACIÓN Y CORRECCIÓN DE ERRORES ====================
     function validarLuhn(card) {
         if (!card || card.includes('X')) return false;
         let sum = 0, double = false;
@@ -853,9 +842,8 @@
         }
         return card;
     }
-    // ==================== FIN DETECTOR DE ERRORES ====================
     
-    // ==================== GENERADOR DE TARJETAS CON MES/AÑO/CVV ====================
+    // ==================== GENERADOR DE TARJETAS ====================
     let ultimasTarjetasGeneradas = [];
     
     function generarNumeroTarjeta(bin, length) {
@@ -941,7 +929,6 @@
         navigator.clipboard.writeText(texto);
         mostrarToastNeon(`✅ ${ultimasTarjetasGeneradas.length} tarjetas copiadas`);
     }
-    // ==================== FIN GENERADOR ====================
     
     // ==================== MÉTODO AVANZADO MEJORADO ====================
     function metodoAvanzadoMejorado() {
@@ -970,7 +957,6 @@
         <button class="btn btn-secondary" style="margin-left:8px;" onclick="copiarTexto('${resultadoFinal}')">Copiar</button>`;
         mostrarToastNeon('✅ Método avanzado ejecutado');
     }
-    // ==================== FIN MÉTODO AVANZADO ====================
     
     // ==================== REVIVIR BIN MEJORADO ====================
     function revivirBINMejorado() {
@@ -1002,16 +988,14 @@
         document.getElementById('revivirResultado').innerHTML = html;
         mostrarToastNeon(`✅ ${resultados.length} combinaciones generadas`);
     }
-    // ==================== FIN REVIVIR BIN ====================
     
-    // ==================== FUNCIÓN COPIAR CON TOAST NEÓN ====================
+    // ==================== FUNCIÓN COPIAR ====================
     function copiarTexto(texto) {
         navigator.clipboard.writeText(texto);
         mostrarToastNeon('¡Copiado!');
     }
-    // ==================== FIN COPIAR ====================
     
-    // ==================== MÉTODOS ORIGINALES (COMPLETOS, SIN MODIFICACIONES) ====================
+    // ==================== MÉTODOS ORIGINALES ====================
     function metodoActivacion() {
         let card = document.getElementById('activacionCard').value.replace(/\D/g, '');
         if (card.length < 16) {
